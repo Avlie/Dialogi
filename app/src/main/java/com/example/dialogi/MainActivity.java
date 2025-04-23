@@ -1,10 +1,13 @@
 package com.example.dialogi;
 
 import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -28,9 +31,14 @@ public class MainActivity extends AppCompatActivity {
         Button button3 = findViewById(R.id.Button3);
         Button button4 = findViewById(R.id.Button4);
         Button button5 = findViewById(R.id.Button5);
+        Button button = findViewById(R.id.button);
+
         button1.setOnClickListener(v -> aboutDialog());
         button2.setOnClickListener(v -> showList());
         button3.setOnClickListener(v -> ShowDate());
+        button4.setOnClickListener(v -> showTimeDialog());
+        button5.setOnClickListener(v -> customDialog());
+
 
 
 
@@ -80,5 +88,29 @@ public class MainActivity extends AppCompatActivity {
 
         }, year, month, day);
         datePickerDialog.show();
+    }
+    private void  showTimeDialog(){
+        Calendar calendar = Calendar.getInstance();
+        int hour = calendar.get(Calendar.HOUR_OF_DAY);
+        int minute = calendar.get(Calendar.MINUTE);
+        TimePickerDialog TimePickerDialog = new TimePickerDialog(this, new TimePickerDialog.OnTimeSetListener() {
+            public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                Toast.makeText(MainActivity.this, "Wybrano: " + hourOfDay + ":" + minute, Toast.LENGTH_SHORT).show();
+            }
+        }, hour, minute, true);
+        TimePickerDialog.show();
+    }
+    private void customDialog() {
+        final android.app.Dialog  dialog = new android.app.Dialog(this);
+        dialog.setContentView(R.layout.custom_dialog);
+        Button button = dialog.findViewById(R.id.button);
+        button.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Toast.makeText(MainActivity.this, "OK", Toast.LENGTH_SHORT).show();
+                dialog.dismiss();
+            }
+        });
+        dialog.show();
+
     }
 }
